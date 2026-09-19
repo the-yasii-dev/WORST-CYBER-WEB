@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WORST CYBER TOOLKIT</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: #000;
+    color: #ff2233;
+    font-family: 'Share Tech Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+#matrix {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    opacity: 0.2;
+}
+.scanline {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(transparent 50%, rgba(255,34,51,0.03) 50%);
+    background-size: 100% 4px;
+    z-index: 2;
+    pointer-events: none;
+    animation: scan 8s linear infinite;
+}
+@keyframes scan {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100%; }
+}
+.container {
+    position: relative;
+    z-index: 3;
+    max-width: 950px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.header {
+    text-align: center;
+    padding: 30px 0 20px;
+    position: relative;
+}
+.header::before, .header::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #ff2233, transparent);
+}
+.header::before { top: 0; }
+.header::after { bottom: 0; }
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 34px;
+    font-weight: 900;
+    color: #ff2233;
+    letter-spacing: 6px;
+    text-shadow: 0 0 5px #ff2233, 0 0 10px #ff2233, 0 0 20px #ff2233;
+    animation: flicker 3s infinite;
+    margin-bottom: 8px;
+}
+@keyframes flicker {
+    0%, 100% { opacity: 1; }
+    96% { opacity: 0.4; }
+    98% { opacity: 0.6; }
+}
+.subtitle {
+    color: #ff223388;
+    font-size: 11px;
+    letter-spacing: 5px;
+    font-family: 'Orbitron', sans-serif;
+}
+.status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    background: rgba(20,0,5,0.8);
+    border: 1px solid #ff223344;
+    border-radius: 4px;
+    margin: 20px 0;
+    font-size: 12px;
+}
+.dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: #ff2233;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #ff2233;
+    animation: pulse 1.5s infinite;
+    margin-right: 8px;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+.card {
+    background: rgba(20,0,5,0.6);
+    border: 1px solid #ff223344;
+    border-radius: 6px;
+    padding: 18px 12px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,34,51,0.2), transparent);
+    transition: left 0.5s;
+}
+.card:hover::before { left: 100%; }
+.card:hover, .card.active {
+    border-color: #ff2233;
+    box-shadow: 0 0 25px #ff223344;
+    transform: translateY(-2px);
+}
+.card.active { background: rgba(255,34,51,0.1); }
+.card .icon {
+    font-size: 24px;
+    color: #ff2233;
+    margin-bottom: 8px;
+    text-shadow: 0 0 15px #ff2233;
+}
+.card .title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    color: #ff2233;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+}
+.card .sub {
+    font-size: 9px;
+    color: #ff223377;
+    letter-spacing: 1px;
+    margin-top: 3px;
+}
+.panel {
+    background: rgba(20,0,5,0.7);
+    border: 1px solid #ff223344;
+    border-radius: 6px;
+    padding: 22px;
+    margin-bottom: 20px;
+}
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ff223322;
+}
+.panel h2 {
+    font-family: 'Orbitron', sans-serif;
+    color: #ff2233;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px #ff223388;
+}
+.panel .id {
+    color: #ff223366;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+.input-group { display: flex; gap: 10px; margin-bottom: 15px; }
+input {
+    flex: 1;
+    padding: 14px;
+    background: rgba(0,0,0,0.7);
+    border: 1px solid #ff223344;
+    border-radius: 4px;
+    color: #ff2233;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s;
+}
+input:focus {
+    border-color: #ff2233;
+    box-shadow: 0 0 20px #ff223344;
+}
+input::placeholder { color: #ff223355; }
+button {
+    padding: 14px 24px;
+    background: transparent;
+    border: 1px solid #ff2233;
+    color: #ff2233;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+button:hover {
+    background: #ff2233;
+    color: #000;
+    box-shadow: 0 0 30px #ff2233;
+}
+.output {
+    background: rgba(0,0,0,0.8);
+    border: 1px solid #ff223333;
+    border-left: 3px solid #ff2233;
+    border-radius: 4px;
+    padding: 16px;
+    min-height: 100px;
+    font-size: 13px;
+    line-height: 1.8;
+    color: #ff2233;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    display: none;
+}
+.output.show { display: block; animation: fadeIn 0.4s; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.output .key { color: #ff223388; }
+.output .val { color: #ff5566; text-shadow: 0 0 8px #ff223366; }
+.output .err { color: #ff0033; font-weight: bold; }
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: #ff223355;
+    font-size: 10px;
+    letter-spacing: 4px;
+    font-family: 'Orbitron', sans-serif;
+    border-top: 1px solid #ff223333;
+    margin-top: 25px;
+}
+</style>
+</head>
+<body>
+<canvas id="matrix"></canvas>
+<div class="scanline"></div>
+
+<div class="container">
+    <div class="header">
+        <div class="logo">WORST CYBER</div>
+        <div class="subtitle">POWERFUL TOOLS SUITE</div>
+    </div>
+
+    <div class="status-bar">
+        <div><span class="dot"></span>SYSTEM ONLINE</div>
+        <div id="clock">00:00:00</div>
+    </div>
+
+    <div class="grid">
+        <div class="card active" data-tool="ip" onclick="selectTool('ip')">
+            <div class="icon">◉</div>
+            <div class="title">IP TRACKER</div>
+            <div class="sub">LOCATION</div>
+        </div>
+        <div class="card" data-tool="dns" onclick="selectTool('dns')">
+            <div class="icon">◇</div>
+            <div class="title">DNS LOOKUP</div>
+            <div class="sub">RECORDS</div>
+        </div>
+        <div class="card" data-tool="whois" onclick="selectTool('whois')">
+            <div class="icon">▤</div>
+            <div class="title">WHOIS</div>
+            <div class="sub">DOMAIN INFO</div>
+        </div>
+        <div class="card" data-tool="ssl" onclick="selectTool('ssl')">
+            <div class="icon">◆</div>
+            <div class="title">SSL CHECK</div>
+            <div class="sub">CERTIFICATE</div>
+        </div>
+        <div class="card" data-tool="email" onclick="selectTool('email')">
+            <div class="icon">✉</div>
+            <div class="title">EMAIL VALID</div>
+            <div class="sub">VERIFY</div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-header">
+            <h2 id="panelTitle">◉ IP TRACKER</h2>
+            <div class="id" id="panelId">ID: WCT-001</div>
+        </div>
+        <div class="input-group">
+            <input type="text" id="target" placeholder="ENTER TARGET...">
+            <button onclick="runTool()">RUN</button>
+        </div>
+        <div class="output" id="output"></div>
+    </div>
+
+    <div class="footer">
+        CODED BY WORST YASII
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById('matrix');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const chars = '01ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const fontSize = 16;
+const columns = canvas.width / fontSize;
+const drops = Array(Math.floor(columns)).fill(1);
+
+function drawMatrix() {
+    ctx.fillStyle = 'rgba(0,0,0,0.06)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ff2233';
+    ctx.font = fontSize + 'px "Share Tech Mono", monospace';
+    ctx.shadowColor = '#ff2233';
+    ctx.shadowBlur = 8;
+    for (let i = 0; i < drops.length; i++) {
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+        drops[i]++;
+    }
+}
+setInterval(drawMatrix, 50);
+
+setInterval(() => {
+    document.getElementById('clock').textContent = new Date().toLocaleTimeString('en-GB');
+}, 1000);
+
+let currentTool = 'ip';
+const toolData = {
+    ip: { name: '◉ IP TRACKER', id: 'WCT-001', placeholder: 'Enter IP or website...' },
+    dns: { name: '◇ DNS LOOKUP', id: 'WCT-002', placeholder: 'Enter domain...' },
+    whois: { name: '▤ WHOIS', id: 'WCT-003', placeholder: 'Enter domain...' },
+    ssl: { name: '◆ SSL CHECK', id: 'WCT-004', placeholder: 'Enter domain...' },
+    email: { name: '✉ EMAIL VALIDATOR', id: 'WCT-005', placeholder: 'Enter email...' }
+};
+
+function selectTool(tool) {
+    currentTool = tool;
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+    document.querySelector(`[data-tool="${tool}"]`).classList.add('active');
+    document.getElementById('panelTitle').textContent = toolData[tool].name;
+    document.getElementById('panelId').textContent = 'ID: ' + toolData[tool].id;
+    document.getElementById('target').placeholder = toolData[tool].placeholder;
+    document.getElementById('target').value = '';
+    document.getElementById('output').classList.remove('show');
+}
+
+async function runTool() {
+    const target = document.getElementById('target').value.trim();
+    const out = document.getElementById('output');
+    
+    if (!target) {
+        out.innerHTML = '<span class="err">[!] TARGET REQUIRED</span>';
+        out.classList.add('show');
+        return;
+    }
+    
+    out.innerHTML = '> PROCESSING...';
+    out.classList.add('show');
+    
+    if (currentTool === 'ip') {
+        try {
+            const r = await fetch(`http://ip-api.com/json/${target}`);
+            const d = await r.json();
+            if (d.status === 'success') {
+                out.innerHTML = `<span class="key">[>] IP INFORMATION</span>
+<span class="key">IP       :</span> <span class="val">${d.query}</span>
+<span class="key">COUNTRY  :</span> <span class="val">${d.country}</span>
+<span class="key">CITY     :</span> <span class="val">${d.city}</span>
+<span class="key">REGION   :</span> <span class="val">${d.regionName}</span>
+<span class="key">ISP      :</span> <span class="val">${d.isp}</span>
+<span class="key">LATITUDE :</span> <span class="val">${d.lat}</span>
+<span class="key">LONGITUDE:</span> <span class="val">${d.lon}</span>
+<span class="key">TIMEZONE :</span> <span class="val">${d.timezone}</span>`;
+            } else {
+                out.innerHTML = '<span class="err">[!] TARGET NOT FOUND</span>';
+            }
+        } catch(e) {
+            out.innerHTML = '<span class="err">[!] CONNECTION FAILED</span>';
+        }
+    }
+    else if (currentTool === 'dns') {
+        try {
+            let html = '<span class="key">[>] DNS RECORDS</span>\n';
+            const types = ['A', 'MX', 'NS'];
+            for (const type of types) {
+                try {
+                    const r = await fetch(`https://dns.google/resolve?name=${target}&type=${type}`);
+                    const d = await r.json();
+                    if (d.Answer) {
+                        html += `<span class="key">\n[${type}]</span>\n`;
+                        d.Answer.forEach(a => {
+                            html += `<span class="val">  → ${a.data}</span>\n`;
+                        });
+                    }
+                } catch(e) {}
+            }
+            out.innerHTML = html;
+        } catch(e) {
+            out.innerHTML = '<span class="err">[!] DNS LOOKUP FAILED</span>';
+        }
+    }
+    else if (currentTool === 'whois') {
+        try {
+            const r = await fetch(`/api/whois?domain=${target}`);
+            const d = await r.json();
+            out.innerHTML = `<span class="key">[>] WHOIS INFO</span>
+<span class="key">DOMAIN :</span> <span class="val">${d.domain}</span>
+<span class="key">IP     :</span> <span class="val">${d.ip}</span>
+<span class="key">STATUS :</span> <span class="val">${d.status}</span>`;
+        } catch(e) {
+            out.innerHTML = '<span class="err">[!] WHOIS FAILED</span>';
+        }
+    }
+    else if (currentTool === 'ssl') {
+        try {
+            const r = await fetch(`/api/ssl?domain=${target}`);
+            const d = await r.json();
+            if (d.valid) {
+                out.innerHTML = `<span class="key">[>] SSL CERTIFICATE</span>
+<span class="key">DOMAIN    :</span> <span class="val">${d.domain}</span>
+<span class="key">VALID     :</span> <span class="val">YES</span>
+<span class="key">EXPIRES   :</span> <span class="val">${d.expires}</span>
+<span class="key">DAYS LEFT :</span> <span class="val">${d.days_left}</span>
+<span class="key">ISSUER    :</span> <span class="val">${d.issuer}</span>`;
+            } else {
+                out.innerHTML = `<span class="err">[!] SSL ERROR: ${d.error}</span>`;
+            }
+        } catch(e) {
+            out.innerHTML = '<span class="err">[!] SSL FAILED</span>';
+        }
+    }
+    else if (currentTool === 'email') {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const valid = regex.test(target);
+        const domain = target.split('@')[1] || '';
+        out.innerHTML = `<span class="key">[>] EMAIL VALIDATION</span>
+<span class="key">EMAIL  :</span> <span class="val">${target}</span>
+<span class="key">FORMAT :</span> <span class="val">${valid ? '✓ VALID' : '✗ INVALID'}</span>
+<span class="key">DOMAIN :</span> <span class="val">${domain || 'N/A'}</span>
+<span class="key">STATUS :</span> <span class="val">${valid ? 'PASSED' : 'FAILED'}</span>`;
+    }
+}
+</script>
+</body>
+</html>
